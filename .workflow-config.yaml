@@ -5,7 +5,7 @@ project:
   name: 'olinda_orchestrator'
   type: 'typescript-library'
   kind: 'typescript_library'
-  version: '0.2.0'
+  version: '0.2.1'
   description: 'A generic orchestrator TypeScript Library'
 
 tech_stack:
@@ -13,8 +13,8 @@ tech_stack:
   secondary_languages:
     - 'javascript'
   build_system: 'npm'
-  test_framework: 'jest'
-  test_runner: 'ts-jest'
+  test_framework: 'vitest'
+  test_runner: 'vitest'
   test_command: 'npm test'
   lint_command: 'npm run lint'
   lint_commands:
@@ -43,7 +43,13 @@ structure:
     - .ai_workflow/archived_docs
 
 version:
-  config_files: []
+  config_files:
+    - package.json
+
+deploy:
+  enabled: true
+  script: 'scripts/deploy.sh'
+  description: 'Build TypeScript, commit dist artifacts, tag the release, push to GitHub, and generate jsDelivr CDN URLs'
 
 ai_personas:
   enabled:

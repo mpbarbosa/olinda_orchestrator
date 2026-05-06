@@ -1,6 +1,6 @@
 # Copilot Guidance for `olinda-orchestrator`
 
-This file provides durable, high-signal guidance for Copilot-assisted development in this repository. For full project details, see the authoritative [README.md](../README.md).
+This file provides durable, high-signal guidance for Copilot-assisted development in this repository. For full project details and usage, see the authoritative [README.md](../README.md).
 
 ## Validation Commands
 
@@ -10,15 +10,18 @@ This file provides durable, high-signal guidance for Copilot-assisted developmen
 
 ## Architecture Boundaries
 
-- The primary source modules and public API are located in `src/`.
-- The main package entry point is exposed via `dist/index.js` (main) and `dist/index.d.ts` (types).
-- Refer to the README for the latest package description and usage.
+- Core source modules and the public API are in `src/`.
+- The main package entry point is `dist/index.js` (main) and `dist/index.d.ts` (types).
+- For package description and usage, refer to the [README.md](../README.md).
 
 ## Copilot Guidance Principles
 
 - Focus edits on `src/` for core logic and API changes.
-- Keep public API changes wired through the main entry point.
-- When in doubt, prefer durable, project-specific conventions and defer to authoritative documentation.
-- Avoid duplicating implementation details or status snapshots in this file; reference the README or source as needed.
+- Route public API changes through the main entry point.
+- When uncertain, defer to project conventions and authoritative documentation.
+- Do not duplicate implementation details or status snapshots here; reference the README or source files instead.
 
-For workflow configuration and runtime artifacts, see `.workflow-config.yaml` and `.ai_workflow/`.
+## Workflow and Runtime Artifacts
+
+- For workflow configuration, see `.workflow-config.yaml`.
+- For runtime artifacts and checkpoints, see `.ai_workflow/`.

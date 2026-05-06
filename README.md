@@ -107,6 +107,7 @@ const stats = registry.getStats();
 
 - [docs/orchestrator.md](./docs/orchestrator.md) — runtime execution model and `Orchestrator` API
 - [docs/step_registry.md](./docs/step_registry.md) — step metadata model, helper functions, and `StepRegistry` API
+- [docs/ci_cd_roadmap.md](./docs/ci_cd_roadmap.md) — phased plan for complete CI/CD on GitHub, jsDelivr, and npm
 
 ## Development
 
