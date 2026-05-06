@@ -78,6 +78,8 @@ Manages generic step metadata for orchestration-oriented libraries.
 - `validateStepDependencies(steps)` — detect missing dependencies
 - `StepRegistry` — mutable registry wrapper for register/update/list/stats operations
 
+The helper functions are implemented in `src/generic_step_registry.ts` and re-exported through `src/step_registry.ts`.
+
 #### Step registry example
 
 ```typescript
@@ -106,6 +108,7 @@ const stats = registry.getStats();
 ## Documentation
 
 - [docs/orchestrator.md](./docs/orchestrator.md) — runtime execution model and `Orchestrator` API
+- [docs/generic_step_registry.md](./docs/generic_step_registry.md) — helper-only step collection and requirement utilities
 - [docs/step_registry.md](./docs/step_registry.md) — step metadata model, helper functions, and `StepRegistry` API
 - [docs/ci_cd_roadmap.md](./docs/ci_cd_roadmap.md) — phased plan for complete CI/CD on GitHub, jsDelivr, and npm
 

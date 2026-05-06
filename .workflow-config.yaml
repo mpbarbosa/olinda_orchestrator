@@ -4,8 +4,10 @@
 project:
   name: 'olinda_orchestrator'
   type: 'typescript-library'
-  kind: 'typescript_library'
-  version: '0.2.1'
+  # Keep project-kind guidance generic so prompts rely on the repo-specific
+  # structure and toolchain declared below instead of unrelated library defaults.
+  kind: 'generic'
+  version: '0.2.2'
   description: 'A generic orchestrator TypeScript Library'
 
 tech_stack:
@@ -27,8 +29,17 @@ structure:
     - src
   test_dirs:
     - src/__tests__
+    - test
   docs_dirs:
     - docs
+  config_files:
+    - .workflow-config.yaml
+    - eslint.config.js
+    - package.json
+    - tsconfig.eslint.json
+    - tsconfig.json
+    - vitest.config.js
+  artifact_dir: '.ai_workflow'
   build_output: 'dist'
   exclude_paths:
     - .ai_workflow/logs
@@ -92,7 +103,7 @@ workflow:
   steps:
     - id: step_00
       name: 'Pre-Analysis'
-      description: 'Analyze the TypeScript library structure, public API surface, and changed files'
+      description: 'Analyze project structure, public API surface, and changed files'
       enabled: true
       dependencies: []
 
@@ -147,21 +158,21 @@ workflow:
 
     - id: step_04
       name: 'Configuration Validation'
-      description: 'Validate package.json, tsconfig files, Jest config, and workflow configuration'
+      description: 'Validate package metadata, TypeScript config files, test tooling config, and workflow configuration'
       enabled: true
       dependencies:
         - step_00
 
     - id: step_05
       name: 'Directory Structure'
-      description: 'Validate src, docs, dist, and test layout for this TypeScript library'
+      description: 'Validate configured source, test, docs, and build-output layout for this project'
       enabled: true
       dependencies:
         - step_04
 
     - id: step_06
       name: 'Test Review'
-      description: 'Review the Jest and ts-jest test suite for coverage gaps and missing cases'
+      description: 'Review the configured test suite for coverage gaps and missing cases'
       enabled: true
       dependencies:
         - step_05
@@ -231,7 +242,7 @@ workflow:
     - id: step_16
       name: 'Version Update'
       enabled: false
-      reason: 'No version-sync hook or CHANGELOG workflow has been configured yet'
+      reason: 'No project-specific version propagation workflow is configured beyond package.json'
 
     - id: step_18
       name: 'Debugging Analysis'
@@ -239,7 +250,7 @@ workflow:
       enabled: true
       dependencies:
         - step_10
-      dependency_comment: "step_16 is disabled for this library because no version-sync workflow is configured; run debugging analysis after code-quality findings from step_10 instead."
+      dependency_comment: "step_16 is disabled because this project does not define extra version-bearing files or a version propagation hook beyond package.json; run debugging analysis after code-quality findings from step_10 instead."
 
     - id: step_19
       name: 'TypeScript Review'
@@ -271,7 +282,7 @@ workflow:
         - step_03
         - step_11
         - step_19
-      dependency_comment: "step_11_6, step_20, and step_23 are disabled for this TypeScript library, so the summary should aggregate the active script-reference, context, and TypeScript-review branches instead."
+      dependency_comment: "Disabled optional review branches are intentionally excluded for this project, so the summary should aggregate the active script-reference, context, and TypeScript-review branches instead."
 
     - id: step_0f
       name: 'Commit Artifacts'
