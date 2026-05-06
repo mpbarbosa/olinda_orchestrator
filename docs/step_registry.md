@@ -1,6 +1,6 @@
 # Step Registry
 
-`src/step_registry.ts` provides the metadata, normalization, validation, filtering, and storage layer for orchestrated steps.
+`src/step_registry.ts` provides the metadata, normalization, validation, and storage layer for orchestrated steps. Its collection-oriented helper functions now live in `src/generic_step_registry.ts` and are re-exported from `src/step_registry.ts`.
 
 ## Overview
 
@@ -8,6 +8,8 @@ This module serves two purposes:
 
 1. It exposes **pure helpers** for validating and working with step definitions.
 2. It provides the stateful `StepRegistry` class, a mutable wrapper around an internal `Map`.
+
+For the helper-only surface, see [docs/generic_step_registry.md](./generic_step_registry.md).
 
 The registry is generic by design. Stage labels are free-form strings, and the module preserves compatibility with older phase-oriented terminology by aliasing `WorkflowPhase` to `StepStage`.
 

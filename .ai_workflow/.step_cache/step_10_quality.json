@@ -19,12 +19,17 @@
     "src/step_registry.ts": {
       "score": 100,
       "issueCount": 0,
-      "lastAnalyzed": "2026-05-06T17:35:28.390Z"
+      "lastAnalyzed": "2026-05-06T22:08:42.839Z"
     },
     "vitest.config.js": {
       "score": 100,
       "issueCount": 0,
       "lastAnalyzed": "2026-05-06T17:35:28.390Z"
+    },
+    "src/generic_step_registry.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-05-06T22:08:42.839Z"
     }
   }
 }
