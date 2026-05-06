@@ -141,3 +141,8 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 .vite/
+
+# AI workflow runtime artifacts
+.ai_workflow/**
+!.ai_workflow/**/
+!.ai_workflow/**/.gitkeep

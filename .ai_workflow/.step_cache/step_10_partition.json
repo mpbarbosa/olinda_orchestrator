@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "partitionIndex": 0,
+  "totalPartitions": 1,
+  "filesHash": "be62e7c9",
+  "partitionLabels": [
+    "eslint.config.js, src, vitest.config.js"
+  ],
+  "updatedAt": "2026-05-06T17:09:55.913Z"
+}

@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "partitionIndex": 0,
+  "totalPartitions": 1,
+  "filesHash": "708755da",
+  "partitionLabels": [
+    "src/__tests__, scripts, vitest.config.js"
+  ],
+  "updatedAt": "2026-05-06T17:07:42.377Z"
+}

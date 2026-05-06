@@ -1,14 +1,18 @@
-export type Task<TInput = unknown, TOutput = unknown> = {
+export type StepExecutor<TInput = unknown, TOutput = unknown> = (
+  input: TInput
+) => Promise<TOutput> | TOutput;
+
+export type OrchestratorStep<TInput = unknown, TOutput = unknown> = {
   name: string;
-  execute: (input: TInput) => Promise<TOutput> | TOutput;
+  execute: StepExecutor<TInput, TOutput>;
 };
 
 export type OrchestratorOptions = {
-  /** Stop execution on the first task failure. Defaults to true. */
+  /** Stop execution on the first step failure. Defaults to true. */
   stopOnError?: boolean;
 };
 
-export type TaskResult<TOutput = unknown> = {
+export type OrchestratorResult<TOutput = unknown> = {
   name: string;
   status: 'fulfilled' | 'rejected';
   value?: TOutput;
@@ -16,33 +20,48 @@ export type TaskResult<TOutput = unknown> = {
 };
 
 /**
- * Orchestrator runs a sequence of named tasks in order, collecting results.
+ * Backward-compatible alias for the previous task-based API.
+ */
+export type Task<TInput = unknown, TOutput = unknown> = OrchestratorStep<TInput, TOutput>;
+
+/**
+ * Backward-compatible alias for the previous task-result API.
+ */
+export type TaskResult<TOutput = unknown> = OrchestratorResult<TOutput>;
+
+/**
+ * Orchestrator runs a sequence of named steps in order, collecting results.
  */
 export class Orchestrator<TInput = unknown> {
-  private readonly tasks: Task<TInput>[];
+  private readonly steps: OrchestratorStep<TInput>[];
   private readonly options: Required<OrchestratorOptions>;
 
-  constructor(tasks: Task<TInput>[] = [], options: OrchestratorOptions = {}) {
-    this.tasks = tasks;
+  constructor(steps: OrchestratorStep<TInput>[] = [], options: OrchestratorOptions = {}) {
+    this.steps = steps;
     this.options = { stopOnError: true, ...options };
   }
 
-  /** Add a task to the end of the pipeline. */
-  addTask(task: Task<TInput>): this {
-    this.tasks.push(task);
+  /** Add a step to the end of the pipeline. */
+  addStep(step: OrchestratorStep<TInput>): this {
+    this.steps.push(step);
     return this;
   }
 
-  /** Execute all tasks with the provided input and return their results. */
-  async run(input: TInput): Promise<TaskResult[]> {
-    const results: TaskResult[] = [];
+  /** Backward-compatible alias for addStep. */
+  addTask(task: Task<TInput>): this {
+    return this.addStep(task);
+  }
 
-    for (const task of this.tasks) {
+  /** Execute all steps with the provided input and return their results. */
+  async run(input: TInput): Promise<OrchestratorResult[]> {
+    const results: OrchestratorResult[] = [];
+
+    for (const step of this.steps) {
       try {
-        const value = await task.execute(input);
-        results.push({ name: task.name, status: 'fulfilled', value });
+        const value = await step.execute(input);
+        results.push({ name: step.name, status: 'fulfilled', value });
       } catch (reason) {
-        results.push({ name: task.name, status: 'rejected', reason });
+        results.push({ name: step.name, status: 'rejected', reason });
         if (this.options.stopOnError) {
           break;
         }

@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "fileScores": {
+    "eslint.config.js": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-05-06T17:09:55.912Z"
+    },
+    "src/index.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-05-06T17:09:55.912Z"
+    },
+    "src/orchestrator.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-05-06T17:09:55.912Z"
+    },
+    "src/step_registry.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-05-06T17:09:55.912Z"
+    },
+    "vitest.config.js": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-05-06T17:09:55.912Z"
+    }
+  }
+}

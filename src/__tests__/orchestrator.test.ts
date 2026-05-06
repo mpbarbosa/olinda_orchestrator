@@ -1,7 +1,8 @@
+import { describe, expect, it } from 'vitest';
 import { Orchestrator } from '../orchestrator';
 
 describe('Orchestrator', () => {
-  it('runs tasks in order and returns fulfilled results (each task receives the original input)', async () => {
+  it('runs steps in order and returns fulfilled results (each step receives the original input)', async () => {
     const orchestrator = new Orchestrator<number>([
       { name: 'double', execute: (n) => n * 2 },
       { name: 'addOne', execute: (n) => n + 1 },
@@ -10,7 +11,7 @@ describe('Orchestrator', () => {
     const results = await orchestrator.run(3);
 
     expect(results).toHaveLength(2);
-    // Both tasks receive the same original input (3), not chained outputs
+    // Both steps receive the same original input (3), not chained outputs
     expect(results[0]).toEqual({ name: 'double', status: 'fulfilled', value: 6 }); // 3 * 2
     expect(results[1]).toEqual({ name: 'addOne', status: 'fulfilled', value: 4 }); // 3 + 1
   });
@@ -54,7 +55,7 @@ describe('Orchestrator', () => {
     expect(results[1]).toEqual({ name: 'ok', status: 'fulfilled', value: 50 });
   });
 
-  it('supports async tasks', async () => {
+  it('supports async steps', async () => {
     const orchestrator = new Orchestrator<string>([
       {
         name: 'asyncUpper',
@@ -69,9 +70,9 @@ describe('Orchestrator', () => {
     expect(results[0]).toEqual({ name: 'asyncUpper', status: 'fulfilled', value: 'HELLO' });
   });
 
-  it('supports addTask chaining', async () => {
+  it('supports addStep chaining', async () => {
     const orchestrator = new Orchestrator<number>();
-    orchestrator.addTask({ name: 'negate', execute: (n) => -n });
+    orchestrator.addStep({ name: 'negate', execute: (n) => -n });
 
     const results = await orchestrator.run(7);
 
