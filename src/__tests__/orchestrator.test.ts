@@ -45,7 +45,7 @@ describe('Orchestrator', () => {
         },
         { name: 'ok', execute: (n) => n * 10 },
       ],
-      { stopOnError: false },
+      { stopOnError: false }
     );
 
     const results = await orchestrator.run(5);

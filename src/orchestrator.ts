@@ -1,7 +1,9 @@
+/** A function that executes a single pipeline step, optionally returning a Promise. */
 export type StepExecutor<TInput = unknown, TOutput = unknown> = (
   input: TInput
 ) => Promise<TOutput> | TOutput;
 
+/** A named pipeline step pairing a display name with its executor function. */
 export type OrchestratorStep<TInput = unknown, TOutput = unknown> = {
   name: string;
   execute: StepExecutor<TInput, TOutput>;
@@ -12,6 +14,7 @@ export type OrchestratorOptions = {
   stopOnError?: boolean;
 };
 
+/** The outcome of a single step: fulfilled with a value or rejected with a reason. */
 export type OrchestratorResult<TOutput = unknown> = {
   name: string;
   status: 'fulfilled' | 'rejected';

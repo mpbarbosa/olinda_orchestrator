@@ -218,9 +218,7 @@ describe('step_registry', () => {
       expect(() => registry.update('missing', { enabled: false })).toThrow(
         StepRegistryValidationError
       );
-      expect(() => registry.checkRequirements('missing', {})).toThrow(
-        StepRegistryValidationError
-      );
+      expect(() => registry.checkRequirements('missing', {})).toThrow(StepRegistryValidationError);
       expect(() => registry.loadStepsFromDirectory('./steps')).toThrow(StepRegistrySystemError);
     });
 

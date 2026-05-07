@@ -1,6 +1,6 @@
 {
   "name": "olinda-orchestrator",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "A generic orchestrator TypeScript Library",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -12,6 +12,8 @@
     "build:watch": "tsc --watch",
     "clean": "rm -rf dist",
     "lint": "eslint \"src/**/*.ts\"",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
     "test": "vitest run",
     "test:docker": "bash ./scripts/run-tests-docker.sh",
     "test:watch": "vitest",
@@ -25,12 +27,13 @@
   "author": "mpbarbosa",
   "license": "MIT",
   "devDependencies": {
-    "@vitest/coverage-v8": "^4.1.5",
     "@eslint/js": "^9.39.1",
     "@typescript-eslint/eslint-plugin": "^8.59.2",
     "@typescript-eslint/parser": "^8.59.2",
+    "@vitest/coverage-v8": "^4.1.5",
     "eslint": "^9.39.1",
-    "vitest": "^4.1.5",
-    "typescript": "^5.5.3"
+    "prettier": "^3.8.3",
+    "typescript": "^5.5.3",
+    "vitest": "^4.1.5"
   }
 }
