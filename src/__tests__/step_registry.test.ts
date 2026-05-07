@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { StepExecutor } from '../step_executor';
 import {
   StepRegistry,
   StepRegistrySystemError,
@@ -163,6 +164,49 @@ describe('step_registry', () => {
 
       expect(registry.getInOrder().map((step) => step.id)).toEqual(['step_10', 'step_02']);
       expect(registry.getByStage().validate.map((step) => step.id)).toEqual(['step_02']);
+    });
+
+    it('adapts registered steps for StepExecutor runtime execution', () => {
+      const registry = new StepRegistry();
+      const execute = (context: { value: number }) => ({ doubled: context.value * 2 });
+
+      registry.register('step_20', {
+        name: 'Double',
+        description: 'Double a value',
+        stage: 'transform',
+        critical: true,
+        timeout: 45,
+        execute,
+      });
+
+      expect(registry.toExecutableStep<{ value: number }, { doubled: number }>('step_20')).toEqual({
+        id: 'step_20',
+        name: 'Double',
+        handler: execute,
+        timeout: 45,
+        phase: 'transform',
+        critical: true,
+      });
+    });
+
+    it('executes a registered step through StepExecutor', async () => {
+      const registry = new StepRegistry();
+      const executor = new StepExecutor();
+
+      registry.register('step_21', {
+        name: 'Double',
+        description: 'Double a value',
+        execute: (context: { value: number }) => ({ doubled: context.value * 2 }),
+      });
+
+      await expect(
+        registry.execute<{ value: number }, { doubled: number }>('step_21', { value: 4 }, executor)
+      ).resolves.toMatchObject({
+        stepId: 'step_21',
+        name: 'Double',
+        success: true,
+        output: { doubled: 8 },
+      });
     });
 
     it('validates dependencies, checks requirements, and returns stats', () => {

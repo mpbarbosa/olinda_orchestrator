@@ -1,7 +1,12 @@
 # Copilot Guidance for `olinda-orchestrator`
 
-This file provides durable, high-signal guidance for Copilot-assisted development in this repository.
-For full project details and implementation specifics, refer to the authoritative docs: `README.md`, `CHANGELOG.md`, `CLAUDE.md`, and `CONTRIBUTING.md`.
+This file provides durable, high-signal guidance for Copilot-assisted development in this repository. Its purpose is to help Copilot make safe, effective edits and avoid common pitfalls.
+
+For implementation details and evolving project specifics, always refer to the authoritative docs:
+- `README.md`
+- `CHANGELOG.md`
+- `CLAUDE.md`
+- `CONTRIBUTING.md`
 
 ## Validation Commands
 

@@ -7,7 +7,7 @@ project:
   # Keep project-kind guidance generic so prompts rely on the repo-specific
   # structure and toolchain declared below instead of unrelated library defaults.
   kind: 'generic'
-  version: '0.4.1'
+  version: '0.5.0'
   description: 'A generic orchestrator TypeScript Library'
 
 tech_stack:

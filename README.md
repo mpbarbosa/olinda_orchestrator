@@ -11,7 +11,7 @@ npm install olinda-orchestrator
 ## Usage
 
 ```typescript
-import { Orchestrator, StepRegistry } from 'olinda-orchestrator';
+import { Orchestrator, StepRegistry, WorkflowStepExecutor } from 'olinda-orchestrator';
 
 const orchestrator = new Orchestrator<number>([
   { name: 'double', execute: (n) => n * 2 },
@@ -31,16 +31,20 @@ registry.register('step_00', {
   stage: 'prepare',
   tags: ['core'],
 });
+
+const executor = new WorkflowStepExecutor();
 ```
+
+`WorkflowStepExecutor` is the barrel-exported alias for the richer `src/step_executor.ts` runtime. The shorter `StepExecutor<TInput, TOutput>` name remains the function type used by `OrchestratorStep.execute`.
 
 ## API
 
 ### `new Orchestrator<TInput>(steps?, options?)`
 
-| Parameter | Type | Default | Description |
-|-----------|------|---------|-------------|
-| `steps` | `OrchestratorStep<TInput>[]` | `[]` | Initial list of steps |
-| `options.stopOnError` | `boolean` | `true` | Stop the pipeline on the first failing step |
+| Parameter             | Type                         | Default | Description                                 |
+| --------------------- | ---------------------------- | ------- | ------------------------------------------- |
+| `steps`               | `OrchestratorStep<TInput>[]` | `[]`    | Initial list of steps                       |
+| `options.stopOnError` | `boolean`                    | `true`  | Stop the pipeline on the first failing step |
 
 ### `orchestrator.addStep(step)`
 
@@ -56,14 +60,26 @@ Each `OrchestratorResult` has the shape:
 type OrchestratorResult = {
   name: string;
   status: 'fulfilled' | 'rejected';
-  value?: unknown;   // present when status === 'fulfilled'
-  reason?: unknown;  // present when status === 'rejected'
+  value?: unknown; // present when status === 'fulfilled'
+  reason?: unknown; // present when status === 'rejected'
 };
 ```
 
 ### `new StepRegistry()`
 
 Manages generic step metadata for orchestration-oriented libraries.
+
+### `new WorkflowStepExecutor(options?)`
+
+Executes richer step definitions with:
+
+- input/output validation
+- timeout handling
+- retry with exponential backoff
+- event emission
+- execution history and statistics
+
+The package exports the class as `WorkflowStepExecutor` to avoid colliding with the existing `StepExecutor<TInput, TOutput>` function type from `src/orchestrator.ts`.
 
 #### Main exports
 
@@ -108,6 +124,7 @@ const stats = registry.getStats();
 ## Documentation
 
 - [docs/orchestrator.md](./docs/orchestrator.md) — runtime execution model and `Orchestrator` API
+- [docs/step_executor.md](./docs/step_executor.md) — advanced step execution runtime with retries, validation, and events
 - [docs/generic_step_registry.md](./docs/generic_step_registry.md) — helper-only step collection and requirement utilities
 - [docs/step_registry.md](./docs/step_registry.md) — step metadata model, helper functions, and `StepRegistry` API
 - [docs/ci_cd_roadmap.md](./docs/ci_cd_roadmap.md) — phased plan for complete CI/CD on GitHub, jsDelivr, and npm
@@ -121,6 +138,10 @@ npm run test:docker  # run Vitest tests inside Docker
 npm run test:coverage # run Vitest tests with coverage report
 npm run lint         # run ESLint
 ```
+
+GitHub Actions runs the same baseline validation on every `push` and
+`pull_request` via `.github/workflows/ci.yml`, using Node 20 and 22 with
+`npm ci`, `npm run lint`, `npm test`, and `npm run build`.
 
 ## Repository scripts
 
@@ -147,12 +168,12 @@ bash ./scripts/run-tests-docker.sh
 
 **Environment variables**
 
-| Variable | Default | Description |
-|---|---|---|
-| `DOCKER_NODE_IMAGE` | `node:20-bookworm` | Node image used for the container run |
-| `DOCKER_NPM_VERSION` | host npm version | npm version installed globally inside the container before `npm ci` |
-| `DOCKER_PROJECT_NAME` | repo directory name | Base name used to derive the Docker volume name |
-| `DOCKER_NODE_MODULES_VOLUME` | `${project}_node_modules` | Explicit Docker volume name for `/workspace/node_modules` |
+| Variable                     | Default                   | Description                                                         |
+| ---------------------------- | ------------------------- | ------------------------------------------------------------------- |
+| `DOCKER_NODE_IMAGE`          | `node:20-bookworm`        | Node image used for the container run                               |
+| `DOCKER_NPM_VERSION`         | host npm version          | npm version installed globally inside the container before `npm ci` |
+| `DOCKER_PROJECT_NAME`        | repo directory name       | Base name used to derive the Docker volume name                     |
+| `DOCKER_NODE_MODULES_VOLUME` | `${project}_node_modules` | Explicit Docker volume name for `/workspace/node_modules`           |
 
 **Integration**
 

@@ -1,4 +1,9 @@
-import type { StepExecutor } from './orchestrator';
+import type { StepExecutor as OrchestratorStepExecutor } from './orchestrator';
+import type {
+  ExecutableStep,
+  StepExecutionResult,
+  StepExecutor as RuntimeStepExecutor,
+} from './step_executor';
 import {
   filterStepsByEnabled,
   filterStepsByTags,
@@ -21,7 +26,10 @@ export type StepStage = string;
 export type WorkflowPhase = StepStage;
 
 /** Alias for `StepExecutor` used in registry definitions. */
-export type StepHandler<TContext = unknown, TResult = unknown> = StepExecutor<TContext, TResult>;
+export type StepHandler<TContext = unknown, TResult = unknown> = OrchestratorStepExecutor<
+  TContext,
+  TResult
+>;
 
 /** Optional runtime preconditions a step needs before it can execute. */
 export type StepRequirements = {
@@ -51,7 +59,7 @@ export type StepDefinitionInput = {
   enabled?: boolean;
   timeout?: number;
   requirements?: StepRequirements;
-  execute?: StepExecutor;
+  execute?: OrchestratorStepExecutor;
   /** @deprecated Use `execute` instead. */
   handler?: StepHandler;
   registeredAt?: number | null;
@@ -73,7 +81,7 @@ export type StepDefinition = {
   enabled: boolean;
   timeout: number;
   requirements: StepRequirements;
-  execute?: StepExecutor;
+  execute?: OrchestratorStepExecutor;
   metadata: StepMetadataRecord & {
     registeredAt: number | null;
     version: string;
@@ -403,6 +411,43 @@ export class StepRegistry {
     return this.registrationOrder
       .map((stepId) => this.steps.get(stepId))
       .filter((step): step is StepDefinition => step !== undefined);
+  }
+
+  /**
+   * Converts a registered step into the runtime shape expected by `StepExecutor`.
+   * @throws {StepRegistryValidationError} when `stepId` is not found.
+   */
+  toExecutableStep<TContext = unknown, TResult = unknown>(
+    stepId: string
+  ): ExecutableStep<TContext, TResult> {
+    const step = this.get(stepId);
+    if (!step) {
+      throw new StepRegistryValidationError(`Step '${stepId}' not found`);
+    }
+
+    const handler = step.execute as OrchestratorStepExecutor<TContext, TResult> | undefined;
+
+    return {
+      id: step.id,
+      name: step.name,
+      handler,
+      timeout: step.timeout,
+      phase: step.stage,
+      critical: step.critical,
+    };
+  }
+
+  /**
+   * Executes a registered step with a provided runtime `StepExecutor` instance.
+   * @throws {StepRegistryValidationError} when `stepId` is not found.
+   */
+  async execute<TContext = unknown, TResult = unknown>(
+    stepId: string,
+    context: TContext,
+    executor: Pick<RuntimeStepExecutor, 'execute'>
+  ): Promise<StepExecutionResult<TResult>> {
+    const step = this.toExecutableStep<TContext, TResult>(stepId);
+    return executor.execute(step, context);
   }
 
   /** Validates all inter-step dependency references; returns errors for missing dependencies. */

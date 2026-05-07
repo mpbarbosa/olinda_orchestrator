@@ -10,6 +10,9 @@ describe('olinda-orchestrator public API (index.ts)', () => {
     expect(typeof OrchestratorModule.StepRegistry).toBe('function');
     expect(typeof OrchestratorModule.StepRegistrySystemError).toBe('function');
     expect(typeof OrchestratorModule.StepRegistryValidationError).toBe('function');
+    expect(typeof OrchestratorModule.WorkflowStepExecutor).toBe('function');
+    expect(typeof OrchestratorModule.StepExecutorSystemError).toBe('function');
+    expect(typeof OrchestratorModule.StepExecutorValidationError).toBe('function');
   });
 
   it('should export step registry helpers', () => {
@@ -24,14 +27,35 @@ describe('olinda-orchestrator public API (index.ts)', () => {
     expect(typeof OrchestratorModule.sortStepsById).toBe('function');
     expect(typeof OrchestratorModule.validateStepDependencies).toBe('function');
     expect(typeof OrchestratorModule.validateStepMetadata).toBe('function');
+    expect(typeof OrchestratorModule.validateStepInput).toBe('function');
+    expect(typeof OrchestratorModule.validateStepOutput).toBe('function');
+    expect(typeof OrchestratorModule.calculateTimeout).toBe('function');
+    expect(typeof OrchestratorModule.shouldRetryStep).toBe('function');
+    expect(typeof OrchestratorModule.calculateRetryDelay).toBe('function');
+    expect(typeof OrchestratorModule.formatStepResult).toBe('function');
+    expect(typeof OrchestratorModule.createExecutionContext).toBe('function');
+    expect(typeof OrchestratorModule.isTimedOut).toBe('function');
+    expect(typeof OrchestratorModule.buildErrorMessage).toBe('function');
   });
 
   it('should not export unexpected properties', () => {
     const allowedExports = [
       'Orchestrator',
+      'WorkflowStepExecutor',
+      'StepExecutorSystemError',
+      'StepExecutorValidationError',
       'StepRegistry',
       'StepRegistrySystemError',
       'StepRegistryValidationError',
+      'validateStepInput',
+      'validateStepOutput',
+      'calculateTimeout',
+      'shouldRetryStep',
+      'calculateRetryDelay',
+      'formatStepResult',
+      'createExecutionContext',
+      'isTimedOut',
+      'buildErrorMessage',
       'createStepDefinition',
       'findStepsByStage',
       'filterStepsByEnabled',

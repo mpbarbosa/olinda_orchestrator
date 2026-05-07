@@ -13,6 +13,31 @@ export type {
   TaskResult,
 } from './orchestrator';
 export {
+  ValidationError as StepExecutorValidationError,
+  SystemError as StepExecutorSystemError,
+  validateStepInput,
+  validateStepOutput,
+  calculateTimeout,
+  shouldRetryStep,
+  calculateRetryDelay,
+  formatStepResult,
+  createExecutionContext,
+  isTimedOut,
+  buildErrorMessage,
+  StepExecutor as WorkflowStepExecutor,
+} from './step_executor';
+export type {
+  ExecutableStep,
+  ExecutionContext,
+  ExecutionValidationResult,
+  StepExecutionResult,
+  StepExecutorLogger,
+  StepExecutorOptions,
+  StepResultExecution,
+  StepValidationResult,
+  StepValidationSchema,
+} from './step_executor';
+export {
   StepRegistry,
   StepRegistrySystemError,
   StepRegistryValidationError,
