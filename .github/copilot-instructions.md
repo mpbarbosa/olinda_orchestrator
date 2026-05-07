@@ -1,6 +1,7 @@
 # Copilot Guidance for `olinda-orchestrator`
 
-This file provides durable, high-signal guidance for Copilot-assisted development in this repository. For full project details and usage, see the authoritative [README.md](../README.md), [CHANGELOG.md](../CHANGELOG.md), and [CLAUDE.md](../CLAUDE.md).
+This file provides durable, high-signal guidance for Copilot-assisted development in this repository.
+For full project details and usage, refer to the authoritative [README.md](../README.md), [CHANGELOG.md](../CHANGELOG.md), and [CLAUDE.md](../CLAUDE.md).
 
 ## Validation Commands
 
@@ -11,16 +12,16 @@ This file provides durable, high-signal guidance for Copilot-assisted developmen
 ## Architecture Boundaries
 
 - Core source modules and the public API are in `src/`.
-- The main package entry points are `dist/index.js` (main) and `dist/index.d.ts` (types).
+- Main package entry points: `dist/index.js` (main), `dist/index.d.ts` (types).
 
 ## Copilot Guidance Principles
 
 - Focus edits on `src/` for core logic and API changes.
 - Route public API changes through the main entry point.
 - When uncertain, defer to project conventions and authoritative documentation.
-- Reference authoritative docs or source files for details; do not duplicate implementation specifics or status here.
+- Prefer referencing authoritative docs over duplicating implementation details.
 
 ## Workflow and Runtime Artifacts
 
-- For workflow configuration, see `.workflow-config.yaml`.
-- For runtime artifacts and checkpoints, see `.ai_workflow/`.
+- Workflow configuration: `.workflow-config.yaml`
+- Runtime artifacts and checkpoints: `.ai_workflow/`

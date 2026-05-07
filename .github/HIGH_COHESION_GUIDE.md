@@ -14,7 +14,7 @@ A module or class has high cohesion when every element it contains serves a sing
 
 - `generic_step_registry.ts` — pure helper functions that operate on step data; no registry state
 - `step_registry.ts` — registry class and step definition logic; imports helpers, does not re-implement them
-- `orchestrator.ts` — orchestration lifecycle only; delegates step lookup to the registry
+- `orchestrator.ts` — self-contained step execution lifecycle; keeps pipeline running concerns separate from registry metadata concerns
 
 ## Signs of Low Cohesion to Avoid
 
