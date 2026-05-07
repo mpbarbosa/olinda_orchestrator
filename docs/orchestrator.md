@@ -15,6 +15,8 @@ This module is intentionally small:
 - `Task` and `TaskResult` remain as compatibility aliases
 - `Orchestrator<TInput>` runs the pipeline
 
+For the richer execution runtime with validation, retries, timeouts, and events, see [docs/step_executor.md](./step_executor.md). That class is exported from the package barrel as `WorkflowStepExecutor` so this module can keep `StepExecutor<TInput, TOutput>` as the function type name.
+
 ## Exported types
 
 ### `StepExecutor<TInput = unknown, TOutput = unknown>`

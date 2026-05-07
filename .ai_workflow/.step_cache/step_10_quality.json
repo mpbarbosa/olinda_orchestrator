@@ -9,7 +9,7 @@
     "src/index.ts": {
       "score": 100,
       "issueCount": 0,
-      "lastAnalyzed": "2026-05-07T01:04:41.869Z"
+      "lastAnalyzed": "2026-05-07T15:08:53.407Z"
     },
     "src/orchestrator.ts": {
       "score": 100,
@@ -19,7 +19,7 @@
     "src/step_registry.ts": {
       "score": 100,
       "issueCount": 0,
-      "lastAnalyzed": "2026-05-07T03:03:08.484Z"
+      "lastAnalyzed": "2026-05-07T15:08:53.407Z"
     },
     "vitest.config.js": {
       "score": 100,
@@ -30,6 +30,11 @@
       "score": 100,
       "issueCount": 0,
       "lastAnalyzed": "2026-05-07T03:03:08.484Z"
+    },
+    "src/step_executor.ts": {
+      "score": 100,
+      "issueCount": 0,
+      "lastAnalyzed": "2026-05-07T15:08:53.407Z"
     }
   }
 }
