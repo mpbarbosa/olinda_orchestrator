@@ -91,7 +91,7 @@ describe('olinda-orchestrator public API (index.ts)', () => {
     });
   });
 
-  it('should throw when accessing non-existent export', () => {
+  it('should return undefined for non-existent export', () => {
     // @ts-expect-error
     expect(() => OrchestratorModule.NonExistentExport).not.toThrow();
     expect(OrchestratorModule.NonExistentExport).toBeUndefined();
