@@ -1,17 +1,9 @@
+import { describe, expect, it } from 'vitest';
 import * as OrchestratorModule from '../index';
 
 describe('olinda-orchestrator public API (index.ts)', () => {
   it('should export Orchestrator class', () => {
     expect(typeof OrchestratorModule.Orchestrator).toBe('function');
-  });
-
-  it('should export Orchestrator types', () => {
-    expect(OrchestratorModule).toHaveProperty('OrchestratorOptions');
-    expect(OrchestratorModule).toHaveProperty('OrchestratorResult');
-    expect(OrchestratorModule).toHaveProperty('OrchestratorStep');
-    expect(OrchestratorModule).toHaveProperty('StepExecutor');
-    expect(OrchestratorModule).toHaveProperty('Task');
-    expect(OrchestratorModule).toHaveProperty('TaskResult');
   });
 
   it('should export StepRegistry and related classes', () => {
@@ -34,30 +26,9 @@ describe('olinda-orchestrator public API (index.ts)', () => {
     expect(typeof OrchestratorModule.validateStepMetadata).toBe('function');
   });
 
-  it('should export step registry types', () => {
-    expect(OrchestratorModule).toHaveProperty('DependencyValidationResult');
-    expect(OrchestratorModule).toHaveProperty('RequirementMatchResult');
-    expect(OrchestratorModule).toHaveProperty('StepDefinition');
-    expect(OrchestratorModule).toHaveProperty('StepDefinitionInput');
-    expect(OrchestratorModule).toHaveProperty('StepHandler');
-    expect(OrchestratorModule).toHaveProperty('StepListFilter');
-    expect(OrchestratorModule).toHaveProperty('StepMetadataRecord');
-    expect(OrchestratorModule).toHaveProperty('StepRegistryStats');
-    expect(OrchestratorModule).toHaveProperty('StepRequirements');
-    expect(OrchestratorModule).toHaveProperty('StepRequirementContext');
-    expect(OrchestratorModule).toHaveProperty('StepStage');
-    expect(OrchestratorModule).toHaveProperty('WorkflowPhase');
-  });
-
   it('should not export unexpected properties', () => {
     const allowedExports = [
       'Orchestrator',
-      'OrchestratorOptions',
-      'OrchestratorResult',
-      'OrchestratorStep',
-      'StepExecutor',
-      'Task',
-      'TaskResult',
       'StepRegistry',
       'StepRegistrySystemError',
       'StepRegistryValidationError',
@@ -72,19 +43,6 @@ describe('olinda-orchestrator public API (index.ts)', () => {
       'sortStepsById',
       'validateStepDependencies',
       'validateStepMetadata',
-      'DependencyValidationResult',
-      'RequirementMatchResult',
-      'StepDefinition',
-      'StepDefinitionInput',
-      'StepHandler',
-      'StepListFilter',
-      'StepMetadataRecord',
-      'StepRegistryStats',
-      'StepRequirements',
-      'StepRequirementContext',
-      'StepStage',
-      'WorkflowPhase',
-      '__esModule'
     ];
     Object.keys(OrchestratorModule).forEach((key) => {
       expect(allowedExports).toContain(key);
