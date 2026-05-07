@@ -116,11 +116,99 @@ const stats = registry.getStats();
 
 ```bash
 npm run build        # compile TypeScript → dist/
-npm test             # run Jest tests
-npm run test:docker  # run Jest tests inside Docker
-npm run test:coverage # run tests with coverage report
+npm test             # run Vitest tests
+npm run test:docker  # run Vitest tests inside Docker
+npm run test:coverage # run Vitest tests with coverage report
 npm run lint         # run ESLint
 ```
+
+## Repository scripts
+
+These shell scripts are repository maintenance helpers. They are intended for
+contributors working from this checkout and are not part of the published npm
+package.
+
+### `scripts/run-tests-docker.sh`
+
+Runs `npm ci` and `npm test` inside a Dockerized Node environment while reusing
+a named `node_modules` volume between runs.
+
+**Usage**
+
+```bash
+bash ./scripts/run-tests-docker.sh
+```
+
+**Prerequisites**
+
+- Docker available on `PATH`
+- npm available on the host so the script can mirror the host npm version into
+  the container
+
+**Environment variables**
+
+| Variable | Default | Description |
+|---|---|---|
+| `DOCKER_NODE_IMAGE` | `node:20-bookworm` | Node image used for the container run |
+| `DOCKER_NPM_VERSION` | host npm version | npm version installed globally inside the container before `npm ci` |
+| `DOCKER_PROJECT_NAME` | repo directory name | Base name used to derive the Docker volume name |
+| `DOCKER_NODE_MODULES_VOLUME` | `${project}_node_modules` | Explicit Docker volume name for `/workspace/node_modules` |
+
+**Integration**
+
+- Invoked by `npm run test:docker`
+- Keeps local containerized test runs aligned with the repository's standard
+  `npm test` flow
+
+**Troubleshooting**
+
+- If `docker` is missing, the script exits immediately with an error
+- If `npm ci` or `npm test` fails in the container, the script exits non-zero
+- Override `DOCKER_NODE_IMAGE` or `DOCKER_NPM_VERSION` when debugging
+  environment-specific failures
+
+### `scripts/deploy.sh`
+
+Performs the current manual release flow for this repository: validates the
+workspace, rebuilds `dist/`, commits generated artifacts when they change,
+creates a version tag, pushes the branch and tag, and prints jsDelivr and
+GitHub raw URLs for the release artifacts.
+
+**Usage**
+
+```bash
+bash ./scripts/deploy.sh
+```
+
+**Prerequisites**
+
+- Clean git working tree
+- Configured `origin` remote
+- A checked-out branch (not detached `HEAD`)
+- `git`, `node`, and `npm` available on `PATH`
+
+**Arguments and environment**
+
+- No positional arguments
+- No documented environment variables; behavior is derived from `package.json`,
+  the current git branch, and the `origin` remote
+
+**Integration**
+
+- Runs the same validation steps used in development: `npm run lint`, `npm test`,
+  and `npm run build`
+- Supports the manual deployment flow referenced in
+  [`docs/ci_cd_roadmap.md`](./docs/ci_cd_roadmap.md)
+
+**Troubleshooting**
+
+- The script exits non-zero if the working tree is dirty, the version tag
+  already exists, `origin` is missing, or required build artifacts are not
+  produced
+- Review the printed `[deploy]` status lines to see which validation or Git step
+  failed before retrying
+- Because the script pushes commits and tags, run it only when the current
+  branch is ready to publish
 
 ## License
 

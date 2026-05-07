@@ -6,6 +6,7 @@ import {
   findStepsByStage,
   groupStepsByPhase,
   groupStepsByStage,
+  isRecord,
   matchStepRequirements,
   sortStepsById,
   validateStepDependencies,
@@ -111,10 +112,6 @@ export class StepRegistrySystemError extends Error {
     super(message);
     this.name = 'StepRegistrySystemError';
   }
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
 }
 
 function isNonEmptyString(value: unknown): value is string {
