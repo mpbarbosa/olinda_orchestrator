@@ -354,5 +354,5 @@ const stats = registry.getStats();
 - Pure helpers are the canonical logic surface; the class is a wrapper around them.
 - Stage and phase are intentionally unified to simplify migration.
 - Sorting and insertion order are deliberately separate concepts:
-  - `list()` returns numeric ID order
-  - `getInOrder()` returns registration order
+    - `list()` returns numeric ID order
+    - `getInOrder()` returns registration order
