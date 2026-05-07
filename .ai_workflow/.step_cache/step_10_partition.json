@@ -1,10 +1,8 @@
 {
   "version": 1,
   "partitionIndex": 0,
-  "totalPartitions": 1,
-  "filesHash": "fef5e1c3",
-  "partitionLabels": [
-    "src"
-  ],
-  "updatedAt": "2026-05-07T00:24:55.286Z"
+  "totalPartitions": 0,
+  "filesHash": "e3b0c442",
+  "partitionLabels": [],
+  "updatedAt": "2026-05-07T01:04:41.869Z"
 }
